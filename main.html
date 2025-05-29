@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Happy 17th Birthday</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to right, #ff758c, #ff7eb3);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+      color: #fff;
+      text-align: center;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.15);
+      padding: 2rem;
+      border-radius: 20px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(10px);
+      max-width: 400px;
+      animation: floatCard 6s ease-in-out infinite;
+    }
+
+    @keyframes floatCard {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      font-size: 1.2rem;
+    }
+
+    .heart {
+      color: red;
+      font-size: 2rem;
+      animation: heartbeat 1s infinite;
+    }
+
+    @keyframes heartbeat {
+      0% { transform: scale(1); }
+      25% { transform: scale(1.2); }
+      50% { transform: scale(1); }
+      75% { transform: scale(1.2); }
+      100% { transform: scale(1); }
+    }
+
+    .footer {
+      position: absolute;
+      bottom: 10px;
+      font-size: 0.9rem;
+    }
+
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+
+    #gameBtn {
+      margin-top: 1rem;
+      background: #fff;
+      color: #ff3366;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: transform 0.2s;
+    }
+
+    #gameBtn:hover {
+      transform: scale(1.05);
+    }
+
+    /* Surprise Popup */
+    #surprisePopup {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 182, 193, 0.9);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+      animation: fadeIn 0.8s ease forwards;
+    }
+
+    .popup-content {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 10px 25px rgba(255, 105, 135, 0.3);
+      transform: scale(0.5);
+      animation: popupScale 0.8s ease forwards;
+    }
+
+    .popup-content h2 {
+      color: #ff3366;
+      margin-bottom: 1rem;
+    }
+
+    .popup-content p {
+      color: #333;
+      font-size: 1rem;
+    }
+
+    .popup-heart {
+      font-size: 3rem;
+      animation: heartbeat 1s infinite;
+    }
+
+    @keyframes popupScale {
+      to { transform: scale(1); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background YouTube Music -->
+  <iframe width="0" height="0"
+    src="https://www.youtube.com/embed/IpFX2vq8HKw?autoplay=1&loop=1&playlist=IpFX2vq8HKw&mute=1"
+    frameborder="0" allow="autoplay" allowfullscreen>
+  </iframe>
+
+  <canvas id="heartsCanvas"></canvas>
+
+  <div class="card">
+    <h1>Happy 17th Birthday, My Love!</h1>
+    <div class="heart">❤</div>
+    <p>
+      On this beautiful 29th May, the day you came into this world,<br>
+      I just want to say how grateful I am to have you in my life.<br>
+      You make my world brighter with your smile, and I hope this birthday is as beautiful as you are.<br>
+      Here's to love, laughter, and countless memories together.
+    </p>
+    <p>Forever yours,<br><strong>Soumo</strong></p>
+    <button id="gameBtn">Tap to Play a Love Game</button>
+  </div>
+
+  <div class="footer">Built with love by Soumo</div>
+
+  <!-- Surprise Popup -->
+  <div id="surprisePopup">
+    <div class="popup-content">
+      <div class="popup-heart">💖</div>
+      <h2>Surprise, Beautiful!</h2>
+      <p>This isn't just a birthday... it's a celebration of YOU!<br>
+        Now, let’s play something sweet...
+      </p>
+    </div>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('heartsCanvas');
+    const ctx = canvas.getContext('2d');
+    let hearts = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    function Heart() {
+      this.x = Math.random() * canvas.width;
+      this.y = Math.random() * canvas.height;
+      this.size = Math.random() * 20 + 10;
+      this.speed = Math.random() * 1 + 0.5;
+    }
+
+    Heart.prototype.draw = function () {
+      ctx.fillStyle = 'rgba(255, 0, 100, 0.7)';
+      ctx.beginPath();
+      ctx.moveTo(this.x, this.y);
+      ctx.bezierCurveTo(this.x + this.size / 2, this.y - this.size,
+        this.x + this.size * 1.5, this.y + this.size / 2,
+        this.x, this.y + this.size * 1.5);
+      ctx.bezierCurveTo(this.x - this.size * 1.5, this.y + this.size / 2,
+        this.x - this.size / 2, this.y - this.size,
+        this.x, this.y);
+      ctx.fill();
+    }
+
+    Heart.prototype.update = function () {
+      this.y -= this.speed;
+      if (this.y < -this.size) {
+        this.y = canvas.height + this.size;
+        this.x = Math.random() * canvas.width;
+      }
+    }
+
+    function createHearts(count) {
+      for (let i = 0; i < count; i++) {
+        hearts.push(new Heart());
+      }
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      hearts.forEach(heart => {
+        heart.update();
+        heart.draw();
+      });
+      requestAnimationFrame(animate);
+    }
+
+    createHearts(50);
+    animate();
+
+    document.getElementById('gameBtn').addEventListener('click', () => {
+      const popup = document.getElementById('surprisePopup');
+      popup.style.display = 'flex';
+
+      // Redirect after delay
+      setTimeout(() => {
+        window.location.href = 'love-game.html'; // Change this to your game page
+      }, 4000);
+    });
+  </script>
+</body>
+</html>

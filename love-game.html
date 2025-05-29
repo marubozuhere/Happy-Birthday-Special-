@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Love Quiz Game</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(120deg, #ff9a9e, #fad0c4);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .quiz-box {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      padding: 2rem;
+      border-radius: 20px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      max-width: 400px;
+      animation: slideUp 1s ease;
+    }
+
+    @keyframes slideUp {
+      0% { transform: translateY(100px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .question {
+      margin: 1rem 0;
+    }
+
+    .answers button {
+      display: block;
+      width: 100%;
+      margin: 0.5rem 0;
+      padding: 0.6rem;
+      background-color: #fff;
+      color: #ff4081;
+      font-weight: bold;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .answers button:hover {
+      background-color: #ffdce0;
+    }
+
+    .popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      background: #fff;
+      color: #ff3366;
+      padding: 2rem;
+      border-radius: 20px;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+      z-index: 999;
+      text-align: center;
+      transition: transform 0.4s ease-in-out;
+    }
+
+    .popup.show {
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    .popup h2 {
+      margin-bottom: 1rem;
+    }
+
+    .heart-animation {
+      font-size: 2rem;
+      animation: heartbeat 1s infinite;
+    }
+
+    @keyframes heartbeat {
+      0% { transform: scale(1); }
+      25% { transform: scale(1.3); }
+      50% { transform: scale(1); }
+      75% { transform: scale(1.3); }
+      100% { transform: scale(1); }
+    }
+
+    .footer {
+      position: absolute;
+      bottom: 10px;
+      font-size: 0.8rem;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="quiz-box">
+    <h1>💘 How well do you know us?</h1>
+    <div class="question" id="question">Question loading...</div>
+    <div class="answers" id="answers"></div>
+  </div>
+
+  <div class="popup" id="popup">
+    <h2>You’re the most special person in my life! 💖</h2>
+    <p>I made this just for you. I love you more than words can say.</p>
+    <div class="heart-animation">💓💓💓</div>
+  </div>
+
+  <div class="footer">Made with infinite love by Soumo</div>
+
+  <script>
+    const questions = [
+      {
+        q: "When did we first talk?",
+        options: ["January", "February", "March", "May"],
+        answer: 1
+      },
+      {
+        q: "What is my nickname for you?",
+        options: ["Princess", "Cutie", "Darling", "Muffin"],
+        answer: 0
+      },
+      {
+        q: "Which color suits you the best?",
+        options: ["Red", "Pink", "Blue", "All of them"],
+        answer: 3
+      }
+    ];
+
+    let current = 0;
+    const questionEl = document.getElementById("question");
+    const answersEl = document.getElementById("answers");
+    const popup = document.getElementById("popup");
+
+    function loadQuestion() {
+      if (current < questions.length) {
+        const q = questions[current];
+        questionEl.textContent = q.q;
+        answersEl.innerHTML = "";
+        q.options.forEach((opt, i) => {
+          const btn = document.createElement("button");
+          btn.textContent = opt;
+          btn.onclick = () => {
+            current++;
+            loadQuestion();
+          };
+          answersEl.appendChild(btn);
+        });
+      } else {
+        showPopup();
+      }
+    }
+
+    function showPopup() {
+      popup.classList.add("show");
+    }
+
+    loadQuestion();
+  </script>
+  <script>
+  function showPopup() {
+    popup.classList.add("show");
+    // Redirect to index.html after 5 seconds
+    setTimeout(() => {
+      window.location.href = "index.html";
+    }, 5000);
+  }
+</script>
+
+</body>
+</html>
